@@ -1,26 +1,18 @@
-import urllib.request
-from urllib.parse import urlencode
+import requests
 
-def obter_informacoes_climaticas(cidade, chave_api):
-    parametros = {'q': cidade, 'appid': chave_api, 'units': 'metric'}
-    url = f"http://api.openweathermap.org/data/2.5/weather?{urlencode(parametros)}"
+API_KEY = 'f544a43e75b1e764194088c036b5429d' 
+cidade = 'Viamão'
 
-    try:
-        with urllib.request.urlopen(url) as resposta:
-            dados_climaticos = resposta.read().decode('utf-8')
-            return dados_climaticos
-    except urllib.error.URLError as e:
-        print(f"Erro ao fazer a requisição: {e}")
-        return None
+link =  f'https://api.openweathermap.org/data/2.5/weather?q={cidade}&appid={API_KEY}'
 
-cidade_desejada = "Viamão"
-chave_api = "f544a43e75b1e764194088c036b5429d"
+requisicao = requests.get(link)
+requisicao.dic = (requisicao.json())  
+descricao = requisicao.dic['weather'][0]['description']
+temperatura_kelvin = requisicao.dic['main']['temp']
 
-dados_climaticos = obter_informacoes_climaticas(cidade_desejada, chave_api)
-
-if dados_climaticos is not None:
-    print(dados_climaticos)
-else:
-    print("Não foi possível obter informações climáticas.")
+temperatura = temperatura_kelvin - 273.15
+print(requisicao.dic)
+print('-')
+print(cidade +',', descricao +',', temperatura)
 
 
