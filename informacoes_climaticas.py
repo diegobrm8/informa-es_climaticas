@@ -6,12 +6,12 @@ cidade = 'Viamão'
 link =  f'https://api.openweathermap.org/data/2.5/weather?q={cidade}&appid={API_KEY}'
 
 requisicao = requests.get(link)
-requisicao.dic = (requisicao.json())  
-descricao = requisicao.dic['weather'][0]['description']
-temperatura_kelvin = requisicao.dic['main']['temp']
+dados_climaticos = (requisicao.json())  
+descricao = dados_climaticos['weather'][0]['description']
+temperatura_kelvin = dados_climaticos['main']['temp']
 
 temperatura = temperatura_kelvin - 273.15
-print(requisicao.dic)
+print(dados_climaticos)
 print('-')
 print(cidade +',', descricao +',', temperatura)
 
